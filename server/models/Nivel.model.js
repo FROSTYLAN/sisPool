@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const { db } = require('../utils/database');
 
-const Piscina = db.define(
-  'Piscina',
+const Nivel = db.define(
+  'Nivel',
   {
     ID: {
       type: DataTypes.INTEGER,
@@ -13,10 +13,14 @@ const Piscina = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    ABREVIATURA: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     timestamps: false,
   }
 );
 
-module.exports = { Piscina };
+module.exports = { Nivel };

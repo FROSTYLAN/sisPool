@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const { db } = require('../utils/database');
 
-const Piscina = db.define(
-  'Piscina',
+const Descuento = db.define(
+  'Descuento',
   {
     ID: {
       type: DataTypes.INTEGER,
@@ -13,10 +13,14 @@ const Piscina = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    MONTO_DSCTO: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
   },
   {
     timestamps: false,
   }
 );
 
-module.exports = { Piscina };
+module.exports = { Descuento };

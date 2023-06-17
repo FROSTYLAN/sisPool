@@ -2,11 +2,7 @@ const express = require('express');
 var cors = require('cors');
 
 // Routers
-const { clientesRouter } = require('./routes/cliente.routes');
-const { empleadosRouter } = require('./routes/empleado.routes');
-const { piscinasRouter } = require('./routes/piscina.routes');
-const { reservasRouter } = require('./routes/reserva.routes');
-const { facturasRouter } = require('./routes/factura.routes');
+const { alumnosRouter } = require('./routes/alumno.routes');
 
 // Init express app
 const app = express();
@@ -18,10 +14,6 @@ app.use(cors());
 app.use(express.json());
 
 //Endpoint
-app.use('/api/v1/clients', clientesRouter);
-app.use('/api/v1/employees', empleadosRouter);
-app.use('/api/v1/pools', piscinasRouter);
-app.use('/api/v1/reservations', reservasRouter);
-app.use('/api/v1/bills', facturasRouter);
+app.use('/api/v1/clients', alumnosRouter);
 
 module.exports = { app };

@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const { db } = require('../utils/database');
 
-const Piscina = db.define(
-  'Piscina',
+const Cargo = db.define(
+  'Cargo',
   {
     ID: {
       type: DataTypes.INTEGER,
@@ -19,4 +19,4 @@ const Piscina = db.define(
   }
 );
 
-module.exports = { Piscina };
+module.exports = { Cargo };

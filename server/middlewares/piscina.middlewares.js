@@ -1,21 +1,21 @@
 // Models
-const { Piscina } = require('../models/piscina.model');
+const { Piscina } = require('../models/Piscina.model');
 
 const piscinaExists = async (req, res, next) => {
   try {
-    const { id } = req.params; // { id }
+    const { ID } = req.params; // { id }
 
-    // SELECT * FROM piscinas WHERE id=?
-    const piscina = await Piscina.findOne({ where: { id } });
+    // SELECT * FROM clientes WHERE id=?
+    const piscina = await Piscina.findOne({ where: { ID } });
 
     if (!piscina) {
       return res.status(404).json({
         status: 'error',
-        message: 'pool not found given that id',
+        message: 'piscina not found given that id',
       });
     }
 
-    // Add piscina data to the req object
+    // Add cliente data to the req object
     req.piscina = piscina;
     next();
   } catch (error) {
