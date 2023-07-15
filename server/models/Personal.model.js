@@ -4,16 +4,16 @@ const { db } = require('../utils/database');
 const Personal = db.define(
   'Personal',
   {
-    ID: {
+    DNI: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
+      allowNull: false,
     },
-    DNI: {
+    APELLIDOS: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    APELLIDOS_NOMBRES: {
+    NOMBRES: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -29,9 +29,14 @@ const Personal = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Cargo', // Nombre de la tabla referenciada
+        model: 'Cargos', // Nombre de la tabla referenciada
         key: 'ID', // Columna referenciada
       },
+    },
+    STATUS: {
+      type: DataTypes.ENUM('actived', 'deleted'),
+      defaultValue: 'actived',
+      allowNull: false,
     },
   },
   {

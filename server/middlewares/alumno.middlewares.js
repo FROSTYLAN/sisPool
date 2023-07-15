@@ -3,10 +3,10 @@ const { Alumno } = require('../models/Alumno.model');
 
 const alumnoExists = async (req, res, next) => {
   try {
-    const { ID } = req.params; // { id }
+    const { DNI } = req.params; // { id }
 
     // SELECT * FROM clientes WHERE id=?
-    const alumno = await Alumno.findOne({ where: { ID } });
+    const alumno = await Alumno.findOne({ where: { DNI } });
 
     if (!alumno) {
       return res.status(404).json({

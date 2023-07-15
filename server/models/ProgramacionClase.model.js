@@ -13,7 +13,7 @@ const ProgramacionClase = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Turno', // Nombre de la tabla referenciada
+        model: 'Turnos', // Nombre de la tabla referenciada
         key: 'ID', // Columna referenciada
       },
     },
@@ -21,7 +21,7 @@ const ProgramacionClase = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Nivel', // Nombre de la tabla referenciada
+        model: 'Nivels', // Nombre de la tabla referenciada
         key: 'ID', // Columna referenciada
       },
     },
@@ -29,7 +29,7 @@ const ProgramacionClase = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Piscina', // Nombre de la tabla referenciada
+        model: 'Piscinas', // Nombre de la tabla referenciada
         key: 'ID', // Columna referenciada
       },
     },
@@ -37,9 +37,14 @@ const ProgramacionClase = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Personal', // Nombre de la tabla referenciada
-        key: 'ID', // Columna referenciada
+        model: 'Personals', // Nombre de la tabla referenciada
+        key: 'DNI', // Columna referenciada
       },
+    },
+    STATUS: {
+      type: DataTypes.ENUM('actived', 'deleted'),
+      defaultValue: 'actived',
+      allowNull: false,
     },
   },
   {

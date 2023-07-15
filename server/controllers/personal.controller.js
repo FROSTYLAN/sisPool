@@ -1,98 +1,133 @@
-const { Alumno } = require('../models/Alumno.model');
-
-const getAllAlumnos = async (req, res) => {
+const { Personal } = require('../models/Personal.model');
+const { Cargo } = require('../models/Cargo.model');
+const getAllPersonales = async (req, res) => {
   try {
-    const alumnos = await Alumno.findAll();
-
-    res.status(200).json({ alumnos });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const createAlumno = async (req, res) => {
-  try {
-    const { DNI, APELLIDOS, NOMBRES, EDAD, DIRECCION, TELEFONO, SEXO, TIPO } =
-      req.body;
-
-    const newAlumno = await Alumno.create({
-      DNI,
-      APELLIDOS,
-      NOMBRES,
-      EDAD,
-      DIRECCION,
-      TELEFONO,
-      SEXO,
-      TIPO,
+    const personales = await Personal.findAll({
+      where: {
+        STATUS: 'actived',
+      },
+      include: {
+        model: Cargo,
+        as: 'CARGO', // Especifica el alias utilizado en la asociación entre Personal y Cargo
+        attributes: ['DESCRIPCION'],
+      },
+      attributes: ['DNI', 'APELLIDOS', 'NOMBRES', 'DIRECCION', 'TELEFONO'],
+      raw: true,
     });
 
-    res.status(201).json({ newAlumno });
+    res.status(200).json(personales);
   } catch (error) {
     console.log(error);
   }
 };
 
-const getAlumnoById = async (req, res) => {
+const getAllNames = async (req, res) => {
+  try {
+    const personales = await Personal.findAll({
+      where: {
+        STATUS: 'actived',
+      },
+      attributes: ['DNI', 'APELLIDOS', 'NOMBRES'],
+      raw: true,
+    });
+
+    const names = personales.map(persona => ({
+      DNI: persona.DNI,
+      EMPLEADO: persona.NOMBRES + ' ' + persona.APELLIDOS,
+    }));
+
+    res.status(200).json(names);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const createPersonal = async (req, res) => {
+  try {
+    const { DNI, APELLIDOS, NOMBRES, DIRECCION, TELEFONO, IDCARGO } = req.body;
+
+    const personal = await Personal.findOne({ where: { DNI } });
+
+    if (!personal) {
+      const newPersonal = await Personal.create({
+        DNI,
+        APELLIDOS,
+        NOMBRES,
+        DIRECCION,
+        TELEFONO,
+        IDCARGO,
+      });
+      res.status(201).json({ newPersonal });
+    } else {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Personal con ese DNI ya esta contratado',
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getPersonalById = async (req, res) => {
   try {
     //const { id } = req.params; // { id }
-    const { alumno } = req;
+    const { personal } = req;
     // SELECT * FROM Clientes WHERE id=?
     // const Cliente = await Cliente.findOne({ where: { id } });
 
-    res.status(200).json({ alumno });
+    res.status(200).json(personal);
   } catch (error) {
     console.log(error);
   }
 };
 
-const updateAlumno = async (req, res) => {
+const updatePersonal = async (req, res) => {
   try {
-    const { alumno } = req;
+    const { personal } = req;
     // const { id } = req.params;
-    const { DNI, APELLIDOS, NOMBRES, EDAD, DIRECCION, TELEFONO, SEXO, TIPO } =
-      req.body;
+    const { DNI, APELLIDOS, NOMBRES, DIRECCION, TELEFONO, IDCARGO } = req.body;
 
     // await Cliente.update({ name }, { where: { id } });
     // const Cliente = await Cliente.findOne({ where: { id } });
 
-    await alumno.update({
+    await personal.update({
       DNI,
       APELLIDOS,
       NOMBRES,
-      EDAD,
       DIRECCION,
       TELEFONO,
-      SEXO,
-      TIPO,
+      IDCARGO,
     });
 
-    res.status(200).json({ status: 'sucess' });
+    res.status(200).json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }
 };
 
-const deleteAlumno = async (req, res) => {
+const deletePersonal = async (req, res) => {
   try {
     // const { id } = req.params; // { id }
-    const { Alumno } = req;
+    const { personal } = req;
     // SELECT * FROM Clientes WHERE id=?
     // const Cliente = await Cliente.findOne({ where: { id } });
 
     // DELETE FROM ...
     // await Cliente.destroy();
-    await Alumno.update({ STATUS: 'deleted' });
+    await personal.update({ STATUS: 'deleted' });
 
-    res.status(200).json({ status: 'sucess' });
+    res.status(200).json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }
 };
 
 module.exports = {
-  getAllAlumnos,
-  createAlumno,
-  getAlumnoById,
-  updateAlumno,
-  deleteAlumno,
+  getAllPersonales,
+  getAllNames,
+  createPersonal,
+  getPersonalById,
+  updatePersonal,
+  deletePersonal,
 };

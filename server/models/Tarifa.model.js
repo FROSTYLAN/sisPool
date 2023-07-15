@@ -9,19 +9,11 @@ const Tarifa = db.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    TIPO: {
-      type: DataTypes.ENUM('mensual', 'especial'),
-      allowNull: false,
-    },
     DESCRIPCION: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     MONTO: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-    },
-    MONTO_CLASE: {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
@@ -31,6 +23,11 @@ const Tarifa = db.define(
     },
     FECHAFINAL: {
       type: DataTypes.DATE,
+      allowNull: false,
+    },
+    STATUS: {
+      type: DataTypes.ENUM('actived', 'deleted'),
+      defaultValue: 'actived',
       allowNull: false,
     },
   },

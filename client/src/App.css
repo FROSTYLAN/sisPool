@@ -8,3 +8,45 @@
   margin-right: 40px;
   border: 1px solid gray;
 }
+.tabla-datos {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-datos th,
+.tabla-datos td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabla-datos th {
+  background-color: #f2f2f2;
+}
+
+.tabla-datos tbody tr:hover {
+  background-color: #f5f5f5;
+}
+/* background-color: #4caf50; */
+.tabla-datos button {
+  padding: 4px 8px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.tabla-datos button + button {
+  margin-left: 4px;
+}
+.tabla-datos .delete-btn {
+  background-color: rgb(224, 72, 72);
+}
+.tabla-datos .delete-btn:hover {
+  background-color: rgb(187, 39, 39);
+}
+.tabla-datos .update-btn {
+  background-color: rgb(78, 78, 189);
+}
+.tabla-datos .update-btn:hover {
+  background-color: rgb(71, 71, 138);
+}

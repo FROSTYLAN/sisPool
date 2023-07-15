@@ -13,13 +13,18 @@ const Turno = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    IDDÍAS: {
+    IDDIAS: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Días', // Nombre de la tabla referenciada
+        model: 'Dia', // Nombre de la tabla referenciada
         key: 'ID', // Columna referenciada
       },
+    },
+    STATUS: {
+      type: DataTypes.ENUM('actived', 'deleted'),
+      defaultValue: 'actived',
+      allowNull: false,
     },
   },
   {

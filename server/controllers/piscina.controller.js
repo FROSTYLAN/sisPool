@@ -1,98 +1,86 @@
-const { Alumno } = require('../models/Alumno.model');
+const { Piscina } = require('../models/Piscina.model');
 
-const getAllAlumnos = async (req, res) => {
+const getAllPiscinas = async (req, res) => {
   try {
-    const alumnos = await Alumno.findAll();
-
-    res.status(200).json({ alumnos });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const createAlumno = async (req, res) => {
-  try {
-    const { DNI, APELLIDOS, NOMBRES, EDAD, DIRECCION, TELEFONO, SEXO, TIPO } =
-      req.body;
-
-    const newAlumno = await Alumno.create({
-      DNI,
-      APELLIDOS,
-      NOMBRES,
-      EDAD,
-      DIRECCION,
-      TELEFONO,
-      SEXO,
-      TIPO,
+    const piscinas = await Piscina.findAll({
+      where: {
+        STATUS: 'actived',
+      },
     });
 
-    res.status(201).json({ newAlumno });
+    res.status(200).json(piscinas);
   } catch (error) {
     console.log(error);
   }
 };
 
-const getAlumnoById = async (req, res) => {
+const createPiscina = async (req, res) => {
+  try {
+    const { DESCRIPCION } = req.body;
+
+    const newPiscina = await Piscina.create({
+      DESCRIPCION,
+    });
+
+    res.status(201).json({ newPiscina });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getPiscinaById = async (req, res) => {
   try {
     //const { id } = req.params; // { id }
-    const { alumno } = req;
+    const { piscina } = req;
     // SELECT * FROM Clientes WHERE id=?
     // const Cliente = await Cliente.findOne({ where: { id } });
 
-    res.status(200).json({ alumno });
+    res.status(200).json(piscina);
   } catch (error) {
     console.log(error);
   }
 };
 
-const updateAlumno = async (req, res) => {
+const updatePiscina = async (req, res) => {
   try {
-    const { alumno } = req;
+    const { piscina } = req;
     // const { id } = req.params;
-    const { DNI, APELLIDOS, NOMBRES, EDAD, DIRECCION, TELEFONO, SEXO, TIPO } =
-      req.body;
+    const { DESCRIPCION } = req.body;
 
     // await Cliente.update({ name }, { where: { id } });
     // const Cliente = await Cliente.findOne({ where: { id } });
 
-    await alumno.update({
-      DNI,
-      APELLIDOS,
-      NOMBRES,
-      EDAD,
-      DIRECCION,
-      TELEFONO,
-      SEXO,
-      TIPO,
+    await piscina.update({
+      DESCRIPCION,
     });
 
-    res.status(200).json({ status: 'sucess' });
+    res.status(200).json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }
 };
 
-const deleteAlumno = async (req, res) => {
+const deletePiscina = async (req, res) => {
   try {
     // const { id } = req.params; // { id }
-    const { Alumno } = req;
+    const { piscina } = req;
     // SELECT * FROM Clientes WHERE id=?
     // const Cliente = await Cliente.findOne({ where: { id } });
 
     // DELETE FROM ...
     // await Cliente.destroy();
-    await Alumno.update({ STATUS: 'deleted' });
+    await piscina.update({ STATUS: 'deleted' });
 
-    res.status(200).json({ status: 'sucess' });
+    res.status(200).json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }
 };
 
 module.exports = {
-  getAllAlumnos,
-  createAlumno,
-  getAlumnoById,
-  updateAlumno,
-  deleteAlumno,
+  getAllPiscinas,
+  createPiscina,
+  getPiscinaById,
+  updatePiscina,
+  deletePiscina,
 };

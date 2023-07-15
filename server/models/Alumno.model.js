@@ -5,13 +5,9 @@ const { db } = require('../utils/database');
 const Alumno = db.define(
   'Alumno',
   {
-    ID: {
+    DNI: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
-    },
-    DNI: {
-      type: DataTypes.STRING,
       allowNull: false,
     },
     APELLIDOS: {
@@ -43,8 +39,8 @@ const Alumno = db.define(
       allowNull: false,
     },
     STATUS: {
-      type: DataTypes.ENUM('activo', 'delete'),
-      defaultValue: 'activo',
+      type: DataTypes.ENUM('actived', 'deleted'),
+      defaultValue: 'actived',
       allowNull: false,
     },
   },

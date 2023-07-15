@@ -13,6 +13,11 @@ const Dia = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    STATUS: {
+      type: DataTypes.ENUM('actived', 'deleted'),
+      defaultValue: 'actived',
+      allowNull: false,
+    },
   },
   {
     timestamps: false,

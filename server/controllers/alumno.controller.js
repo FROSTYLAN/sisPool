@@ -1,10 +1,36 @@
+const { where } = require('sequelize');
 const { Alumno } = require('../models/Alumno.model');
 
 const getAllAlumnos = async (req, res) => {
   try {
-    const alumnos = await Alumno.findAll();
+    const alumnos = await Alumno.findAll({
+      where: {
+        STATUS: 'actived',
+      },
+    });
 
-    res.status(200).json({ alumnos });
+    res.status(200).json(alumnos);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAllNames = async (req, res) => {
+  try {
+    const alumnos = await Alumno.findAll({
+      where: {
+        STATUS: 'actived',
+      },
+      attributes: ['DNI', 'APELLIDOS', 'NOMBRES'],
+      raw: true,
+    });
+
+    const names = alumnos.map(alumno => ({
+      DNI: alumno.DNI,
+      ALUMNO: alumno.NOMBRES + ' ' + alumno.APELLIDOS,
+    }));
+
+    res.status(200).json(names);
   } catch (error) {
     console.log(error);
   }
@@ -15,18 +41,27 @@ const createAlumno = async (req, res) => {
     const { DNI, APELLIDOS, NOMBRES, EDAD, DIRECCION, TELEFONO, SEXO, TIPO } =
       req.body;
 
-    const newAlumno = await Alumno.create({
-      DNI,
-      APELLIDOS,
-      NOMBRES,
-      EDAD,
-      DIRECCION,
-      TELEFONO,
-      SEXO,
-      TIPO,
-    });
+    const alumno = await Alumno.findOne({ where: { DNI, STATUS: 'actived' } });
 
-    res.status(201).json({ newAlumno });
+    if (!alumno) {
+      const newAlumno = await Alumno.create({
+        DNI,
+        APELLIDOS,
+        NOMBRES,
+        EDAD,
+        DIRECCION,
+        TELEFONO,
+        SEXO,
+        TIPO,
+      });
+
+      res.status(201).json({ newAlumno });
+    } else {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Alumno con ese DNI ya esta matriculado',
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -34,12 +69,9 @@ const createAlumno = async (req, res) => {
 
 const getAlumnoById = async (req, res) => {
   try {
-    //const { id } = req.params; // { id }
     const { alumno } = req;
-    // SELECT * FROM Clientes WHERE id=?
-    // const Cliente = await Cliente.findOne({ where: { id } });
 
-    res.status(200).json({ alumno });
+    res.status(200).json(alumno);
   } catch (error) {
     console.log(error);
   }
@@ -75,13 +107,13 @@ const updateAlumno = async (req, res) => {
 const deleteAlumno = async (req, res) => {
   try {
     // const { id } = req.params; // { id }
-    const { Alumno } = req;
+    const { alumno } = req;
     // SELECT * FROM Clientes WHERE id=?
     // const Cliente = await Cliente.findOne({ where: { id } });
 
     // DELETE FROM ...
     // await Cliente.destroy();
-    await Alumno.update({ STATUS: 'deleted' });
+    await alumno.update({ STATUS: 'deleted' });
 
     res.status(200).json({ status: 'sucess' });
   } catch (error) {
@@ -91,6 +123,7 @@ const deleteAlumno = async (req, res) => {
 
 module.exports = {
   getAllAlumnos,
+  getAllNames,
   createAlumno,
   getAlumnoById,
   updateAlumno,

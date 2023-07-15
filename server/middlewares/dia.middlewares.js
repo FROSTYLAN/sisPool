@@ -1,7 +1,7 @@
 // Models
 const { Dia } = require('../models/Dia.model');
 
-const DiaExists = async (req, res, next) => {
+const diaExists = async (req, res, next) => {
   try {
     const { ID } = req.params; // { id }
 
@@ -23,4 +23,4 @@ const DiaExists = async (req, res, next) => {
   }
 };
 
-module.exports = { DiaExists };
+module.exports = { diaExists };

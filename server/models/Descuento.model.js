@@ -17,6 +17,11 @@ const Descuento = db.define(
       type: DataTypes.FLOAT,
       allowNull: false,
     },
+    STATUS: {
+      type: DataTypes.ENUM('actived', 'deleted'),
+      defaultValue: 'actived',
+      allowNull: false,
+    },
   },
   {
     timestamps: false,

@@ -21,9 +21,14 @@ const Vacante = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'ProgramacionClase', // Nombre de la tabla referenciada
+        model: 'ProgramacionClases', // Nombre de la tabla referenciada
         key: 'ID', // Columna referenciada
       },
+    },
+    STATUS: {
+      type: DataTypes.ENUM('actived', 'deleted'),
+      defaultValue: 'actived',
+      allowNull: false,
     },
   },
   {

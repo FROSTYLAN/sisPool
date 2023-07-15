@@ -1,98 +1,95 @@
-const { Alumno } = require('../models/Alumno.model');
+const { Tarifa } = require('../models/Tarifa.model');
 
-const getAllAlumnos = async (req, res) => {
+const getAllTarifas = async (req, res) => {
   try {
-    const alumnos = await Alumno.findAll();
-
-    res.status(200).json({ alumnos });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const createAlumno = async (req, res) => {
-  try {
-    const { DNI, APELLIDOS, NOMBRES, EDAD, DIRECCION, TELEFONO, SEXO, TIPO } =
-      req.body;
-
-    const newAlumno = await Alumno.create({
-      DNI,
-      APELLIDOS,
-      NOMBRES,
-      EDAD,
-      DIRECCION,
-      TELEFONO,
-      SEXO,
-      TIPO,
+    const tarifas = await Tarifa.findAll({
+      where: {
+        STATUS: 'actived',
+      },
     });
 
-    res.status(201).json({ newAlumno });
+    res.status(200).json(tarifas);
   } catch (error) {
     console.log(error);
   }
 };
 
-const getAlumnoById = async (req, res) => {
+const createTarifa = async (req, res) => {
+  try {
+    const { DESCRIPCION, MONTO, FECHAINICIO, FECHAFINAL } = req.body;
+
+    const newTarifa = await Tarifa.create({
+      DESCRIPCION,
+      MONTO,
+      FECHAINICIO,
+      FECHAFINAL,
+    });
+
+    res.status(201).json({ newTarifa });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getTarifaById = async (req, res) => {
   try {
     //const { id } = req.params; // { id }
-    const { alumno } = req;
+    const { tarifa } = req;
     // SELECT * FROM Clientes WHERE id=?
     // const Cliente = await Cliente.findOne({ where: { id } });
 
-    res.status(200).json({ alumno });
+    res.status(200).json(tarifa);
   } catch (error) {
     console.log(error);
   }
 };
 
-const updateAlumno = async (req, res) => {
+const updateTarifa = async (req, res) => {
   try {
-    const { alumno } = req;
+    const { tarifa } = req;
     // const { id } = req.params;
-    const { DNI, APELLIDOS, NOMBRES, EDAD, DIRECCION, TELEFONO, SEXO, TIPO } =
+    const { TIPO, DESCRIPCION, MONTO, MONTO_CLASE, FECHAINICIO, FECHAFINAL } =
       req.body;
 
     // await Cliente.update({ name }, { where: { id } });
     // const Cliente = await Cliente.findOne({ where: { id } });
 
-    await alumno.update({
-      DNI,
-      APELLIDOS,
-      NOMBRES,
-      EDAD,
-      DIRECCION,
-      TELEFONO,
-      SEXO,
+    await Tarifa.update({
       TIPO,
+      DESCRIPCION,
+      MONTO,
+      MONTO_CLASE,
+      FECHAINICIO,
+      FECHAFINAL,
     });
 
-    res.status(200).json({ status: 'sucess' });
+    res.status(200).json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }
 };
 
-const deleteAlumno = async (req, res) => {
+const deleteTarifa = async (req, res) => {
   try {
     // const { id } = req.params; // { id }
-    const { Alumno } = req;
+    const { tarifa } = req;
     // SELECT * FROM Clientes WHERE id=?
     // const Cliente = await Cliente.findOne({ where: { id } });
 
     // DELETE FROM ...
     // await Cliente.destroy();
-    await Alumno.update({ STATUS: 'deleted' });
+    await tarifa.update({ STATUS: 'deleted' });
 
-    res.status(200).json({ status: 'sucess' });
+    res.status(200).json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }
 };
 
 module.exports = {
-  getAllAlumnos,
-  createAlumno,
-  getAlumnoById,
-  updateAlumno,
-  deleteAlumno,
+  getAllTarifas,
+  createTarifa,
+  getTarifaById,
+  updateTarifa,
+  deleteTarifa,
 };

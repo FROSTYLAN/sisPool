@@ -6,6 +6,7 @@ const { alumnoExists } = require('../middlewares/alumno.middlewares');
 // Controller
 const {
   getAllAlumnos,
+  getAllNames,
   createAlumno,
   getAlumnoById,
   updateAlumno,
@@ -16,8 +17,10 @@ const router = express.Router();
 
 router.route('/').get(getAllAlumnos).post(createAlumno);
 
+router.route('/names').get(getAllNames);
+
 router
-  .route('/:ID  ')
+  .route('/:DNI')
   .get(alumnoExists, getAlumnoById)
   .patch(alumnoExists, updateAlumno)
   .delete(alumnoExists, deleteAlumno);

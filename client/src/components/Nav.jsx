@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 export default function Nav() {
   return (
     <div className="Nav">
+      <ul>
+        <Link to={"/"}>LOGO AQUI</Link>
+      </ul>
       <ul className="nav-list">
         <li className="nav-item">
           <p className="nav-title">Mantenedor</p>
@@ -36,6 +39,9 @@ export default function Nav() {
               <Link to={"/programacion"}>Programación</Link>
             </li>
             <li>
+              <Link to={"/vacante"}>Vacantes</Link>
+            </li>
+            <li>
               <Link to={"/piscina"}>Piscinas</Link>
             </li>
             <li>
@@ -56,15 +62,11 @@ export default function Nav() {
         </li>
         <li className="nav-item">
           <p className="nav-title">Matrículas</p>
-        </li>
-        <li className="nav-item">
-          <p className="nav-title">Vouchers</p>
-        </li>
-        <li className="nav-item">
-          <p className="nav-title">Reportes</p>
-        </li>
-        <li className="nav-item">
-          <p className="nav-title">Utilitarios</p>
+          <ul>
+            <li>
+              <Link to={"/matricula"}>Matriculas</Link>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>

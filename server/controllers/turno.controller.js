@@ -1,98 +1,96 @@
-const { Alumno } = require('../models/Alumno.model');
+const { Dia } = require('../models/Dia.model');
+const { Turno } = require('../models/Turno.model');
 
-const getAllAlumnos = async (req, res) => {
+const getAllTurnos = async (req, res) => {
   try {
-    const alumnos = await Alumno.findAll();
-
-    res.status(200).json({ alumnos });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const createAlumno = async (req, res) => {
-  try {
-    const { DNI, APELLIDOS, NOMBRES, EDAD, DIRECCION, TELEFONO, SEXO, TIPO } =
-      req.body;
-
-    const newAlumno = await Alumno.create({
-      DNI,
-      APELLIDOS,
-      NOMBRES,
-      EDAD,
-      DIRECCION,
-      TELEFONO,
-      SEXO,
-      TIPO,
+    const turnos = await Turno.findAll({
+      where: {
+        STATUS: 'actived',
+      },
+      include: {
+        model: Dia,
+        as: 'DIAS',
+        attributes: ['DESCRIPCION'],
+      },
+      attributes: ['ID', 'DESCRIPCION'],
+      raw: true,
     });
 
-    res.status(201).json({ newAlumno });
+    res.status(200).json(turnos);
   } catch (error) {
     console.log(error);
   }
 };
 
-const getAlumnoById = async (req, res) => {
+const createTurno = async (req, res) => {
+  try {
+    const { DESCRIPCION, IDDIAS } = req.body;
+
+    const newTurno = await Turno.create({
+      DESCRIPCION,
+      IDDIAS,
+    });
+
+    res.status(201).json({ newTurno });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getTurnoById = async (req, res) => {
   try {
     //const { id } = req.params; // { id }
-    const { alumno } = req;
+    const { turno } = req;
     // SELECT * FROM Clientes WHERE id=?
     // const Cliente = await Cliente.findOne({ where: { id } });
 
-    res.status(200).json({ alumno });
+    res.status(200).json(turno);
   } catch (error) {
     console.log(error);
   }
 };
 
-const updateAlumno = async (req, res) => {
+const updateTurno = async (req, res) => {
   try {
-    const { alumno } = req;
+    const { turno } = req;
     // const { id } = req.params;
-    const { DNI, APELLIDOS, NOMBRES, EDAD, DIRECCION, TELEFONO, SEXO, TIPO } =
-      req.body;
+    const { DESCRIPCION, IDDIAS } = req.body;
 
     // await Cliente.update({ name }, { where: { id } });
     // const Cliente = await Cliente.findOne({ where: { id } });
 
-    await alumno.update({
-      DNI,
-      APELLIDOS,
-      NOMBRES,
-      EDAD,
-      DIRECCION,
-      TELEFONO,
-      SEXO,
-      TIPO,
+    await turno.update({
+      DESCRIPCION,
+      IDDIAS,
     });
 
-    res.status(200).json({ status: 'sucess' });
+    res.status(200).json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }
 };
 
-const deleteAlumno = async (req, res) => {
+const deleteTurno = async (req, res) => {
   try {
     // const { id } = req.params; // { id }
-    const { Alumno } = req;
+    const { turno } = req;
     // SELECT * FROM Clientes WHERE id=?
     // const Cliente = await Cliente.findOne({ where: { id } });
 
     // DELETE FROM ...
     // await Cliente.destroy();
-    await Alumno.update({ STATUS: 'deleted' });
+    await turno.update({ STATUS: 'deleted' });
 
-    res.status(200).json({ status: 'sucess' });
+    res.status(200).json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }
 };
 
 module.exports = {
-  getAllAlumnos,
-  createAlumno,
-  getAlumnoById,
-  updateAlumno,
-  deleteAlumno,
+  getAllTurnos,
+  createTurno,
+  getTurnoById,
+  updateTurno,
+  deleteTurno,
 };

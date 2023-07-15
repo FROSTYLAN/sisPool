@@ -1,98 +1,83 @@
-const { Alumno } = require('../models/Alumno.model');
+const { Cargo } = require('../models/Cargo.model');
 
-const getAllAlumnos = async (req, res) => {
+const getAllCargos = async (req, res) => {
   try {
-    const alumnos = await Alumno.findAll();
-
-    res.status(200).json({ alumnos });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const createAlumno = async (req, res) => {
-  try {
-    const { DNI, APELLIDOS, NOMBRES, EDAD, DIRECCION, TELEFONO, SEXO, TIPO } =
-      req.body;
-
-    const newAlumno = await Alumno.create({
-      DNI,
-      APELLIDOS,
-      NOMBRES,
-      EDAD,
-      DIRECCION,
-      TELEFONO,
-      SEXO,
-      TIPO,
+    const cargos = await Cargo.findAll({
+      where: {
+        STATUS: 'actived',
+      },
     });
 
-    res.status(201).json({ newAlumno });
+    res.status(200).json(cargos);
   } catch (error) {
     console.log(error);
   }
 };
 
-const getAlumnoById = async (req, res) => {
+const createCargo = async (req, res) => {
   try {
-    //const { id } = req.params; // { id }
-    const { alumno } = req;
-    // SELECT * FROM Clientes WHERE id=?
-    // const Cliente = await Cliente.findOne({ where: { id } });
+    const { DESCRIPCION } = req.body;
 
-    res.status(200).json({ alumno });
+    const newCargo = await Cargo.create({
+      DESCRIPCION,
+    });
+
+    res.status(201).json({ newCargo });
   } catch (error) {
     console.log(error);
   }
 };
 
-const updateAlumno = async (req, res) => {
+const getCargoById = async (req, res) => {
   try {
-    const { alumno } = req;
+    const { cargo } = req;
+
+    res.status(200).json(cargo);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateCargo = async (req, res) => {
+  try {
+    const { cargo } = req;
     // const { id } = req.params;
-    const { DNI, APELLIDOS, NOMBRES, EDAD, DIRECCION, TELEFONO, SEXO, TIPO } =
-      req.body;
+    const { DESCRIPCION } = req.body;
 
     // await Cliente.update({ name }, { where: { id } });
     // const Cliente = await Cliente.findOne({ where: { id } });
 
-    await alumno.update({
-      DNI,
-      APELLIDOS,
-      NOMBRES,
-      EDAD,
-      DIRECCION,
-      TELEFONO,
-      SEXO,
-      TIPO,
+    await cargo.update({
+      DESCRIPCION,
     });
 
-    res.status(200).json({ status: 'sucess' });
+    res.status(200).json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }
 };
 
-const deleteAlumno = async (req, res) => {
+const deleteCargo = async (req, res) => {
   try {
     // const { id } = req.params; // { id }
-    const { Alumno } = req;
+    const { cargo } = req;
     // SELECT * FROM Clientes WHERE id=?
     // const Cliente = await Cliente.findOne({ where: { id } });
 
     // DELETE FROM ...
     // await Cliente.destroy();
-    await Alumno.update({ STATUS: 'deleted' });
+    await cargo.update({ STATUS: 'deleted' });
 
-    res.status(200).json({ status: 'sucess' });
+    res.status(200).json({ status: 'success' });
   } catch (error) {
     console.log(error);
   }
 };
 
 module.exports = {
-  getAllAlumnos,
-  createAlumno,
-  getAlumnoById,
-  updateAlumno,
-  deleteAlumno,
+  getAllCargos,
+  createCargo,
+  getCargoById,
+  updateCargo,
+  deleteCargo,
 };
